@@ -9,12 +9,18 @@ import numpy as np
 import peartree as pt
 from shapely.geometry import Point
 
-tl_query = 'https://transit.land/api/v1/feeds?bbox=-73.97339,40.649778,-73.946532,40.670353'
+# Bay area rectangle select
+tl_query = 'https://transit.land/api/v1/feeds?bbox=38.055199,-122.926353,37.252472,-121.672981'
 
-resp = requests.get(tl_query)
+# Brooklyn example rectangle select
+# tl_query = 'https://transit.land/api/v1/feeds?bbox=-73.97339,40.649778,-73.946532,40.670353' 
+header = {'apikey':'NMmVInTVH1ctN7deZOcDy2Wzbh53GVav'}
+
+resp = requests.get(tl_query, headers=header)
 rj = resp.json()
+print(rj)
 
-zip_url = None
-for f in rj['feeds']:
-    if 'oakland' in f['onestop_id']:
-        zip_url = f['url']
+# zip_url = None
+# for f in rj['feeds']:
+#     if 'san francisco' in f['onestop_id']:
+#         zip_url = f['url']
