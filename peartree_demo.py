@@ -2,12 +2,12 @@ import os
 import requests
 import tempfile
 
-import geopandas as gpd
+# import geopandas as gpd
 import networkx as nx
-import osmnx as ox
+# import osmnx as ox
 import numpy as np
-import peartree as pt
-from shapely.geometry import Point
+# import peartree as pt
+# from shapely.geometry import Point
 import pprint
 
 # Bay area rectangle select
