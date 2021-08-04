@@ -6,6 +6,7 @@ import tempfile
 import networkx as nx
 # import osmnx as ox
 import numpy as np
+import pandas as pd
 # import peartree as pt
 # from shapely.geometry import Point
 import pprint
@@ -13,7 +14,7 @@ import pprint
 # Bay area rectangle select
 tl_query_ops = 'https://transit.land/api/v1/operators?bbox=-122.503607,37.166611,-121.713958,38.038060'
 tl_query_routes = 'https://transit.land/api/v1/routes?bbox=-122.503607,37.166611,-121.713958,38.038060'
-tl_query_stops = 'https://transit.land/api/v1/stops?bbox=-122.503607,37.166611,-121.713958,38.038060'
+tl_query_stops = 'https://transit.land/api/v1/stops?bbox=-122.503607,37.166611,-121.713958,38.038060?'
 tl_query_feeds = 'https://transit.land/api/v1/feeds?bbox=-122.503607,37.166611,-121.713958,38.038060'
 
 # Brooklyn example rectangle select
@@ -33,7 +34,7 @@ rj_feeds = resp_feeds.json()
 
 # pprint.pprint(rj_ops['operators'][0])
 # pprint.pprint(rj_routes['routes'][0])
-pprint.pprint(len(rj_stops['stops']))
+# pprint.pprint(len(rj_stops['stops']))
 pprint.pprint(rj_stops['stops'][-1])
 # Feeds not working
 # pprint.pprint(rj_feeds)
@@ -42,7 +43,7 @@ pprint.pprint(rj_stops['stops'][-1])
 operators_name = []
 for op in rj_ops['operators']:
     operators_name.append([op['name'], op['metro']])
-pprint.pprint(operators_name)
+# pprint.pprint(operators_name)
 
 # Append number of stops and routes for each operator...coming soon
 
@@ -50,5 +51,5 @@ pprint.pprint(operators_name)
 stop_list = []
 for stop in rj_stops['stops']:
     stop_list.append([stop['name'], stop['onestop_id']])
-pprint.pprint(stop_list)
-
+# pprint.pprint(stop_list)
+print(len(stop_list))
