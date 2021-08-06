@@ -52,4 +52,4 @@ stop_list = []
 for stop in rj_stops['stops']:
     stop_list.append([stop['name'], stop['onestop_id']])
 # pprint.pprint(stop_list)
-print(len(stop_list))
+print(stop_list)
