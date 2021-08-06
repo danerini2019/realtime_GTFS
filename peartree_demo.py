@@ -14,10 +14,10 @@ import pprint
 # Bay area rectangle select
 tl_query_ops = 'https://transit.land/api/v1/operators?bbox=-122.503607,37.166611,-121.713958,38.038060'
 tl_query_routes = 'https://transit.land/api/v1/routes?bbox=-122.503607,37.166611,-121.713958,38.038060'
-tl_query_stops = 'https://transit.land/api/v1/stops?bbox=-122.503607,37.166611,-121.713958,38.038060?'
+tl_query_stops = 'https://transit.land/api/v1/stops?bbox=-122.503607,37.166611,-121.713958,38.038060'
 tl_query_feeds = 'https://transit.land/api/v1/feeds?bbox=-122.503607,37.166611,-121.713958,38.038060'
 
-# Brooklyn example rectangle select
+# Brooklyn example rectangle selectß
 # tl_query = 'https://transit.land/api/v1/stops?bbox=-73.97339,40.649778,-73.946532,40.670353' 
 
 header = {'apikey':'NMmVInTVH1ctN7deZOcDy2Wzbh53GVav'}
@@ -35,7 +35,7 @@ rj_feeds = resp_feeds.json()
 # pprint.pprint(rj_ops['operators'][0])
 # pprint.pprint(rj_routes['routes'][0])
 # pprint.pprint(len(rj_stops['stops']))
-pprint.pprint(rj_stops['stops'][-1])
+# pprint.pprint(rj_stops)
 # Feeds not working
 # pprint.pprint(rj_feeds)
 
