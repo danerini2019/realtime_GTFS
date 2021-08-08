@@ -2,8 +2,7 @@ import os
 import requests
 import tempfile
 import sys
-sys.path.insert(0, '../data/')
-import API_GET
+import data.API_GET
 
 # import geopandas as gpd
 import networkx as nx
@@ -19,7 +18,7 @@ import pprint
 pprint.pprint(rj_age['agencies'][0])
 # pprint.pprint(rj_ops['operators'][0])
 # pprint.pprint(rj_routes['routes'][0])
-# pprint.pprint(len(rj_stops['stops'][0]))
+# nt.pprint(len(rj_stops['stops'][0]))
 # pprint.pprint(rj_feeds['feeds'][0])
 
 # Acquire list of operators in area
