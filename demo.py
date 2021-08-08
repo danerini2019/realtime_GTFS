@@ -2,7 +2,7 @@ import os
 import requests
 import tempfile
 import sys
-import data.API_GET
+from data.API_GET import rj_age, rj_ops, rj_routes, rj_stops, rj_feeds
 
 # import geopandas as gpd
 import networkx as nx
@@ -15,7 +15,7 @@ import pprint
 
 
 
-pprint.pprint(rj_age['agencies'][0])
+pprint.pprint(rj_feeds['feeds'][0])
 # pprint.pprint(rj_ops['operators'][0])
 # pprint.pprint(rj_routes['routes'][0])
 # nt.pprint(len(rj_stops['stops'][0]))
