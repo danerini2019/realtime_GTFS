@@ -1,6 +1,9 @@
 import os
 import requests
 import tempfile
+import sys
+sys.path.insert(0, '../data/')
+import API_GET
 
 # import geopandas as gpd
 import networkx as nx
@@ -10,33 +13,10 @@ import pandas as pd
 # import peartree as pt
 # from shapely.geometry import Point
 import pprint
-from data.py
 
-# Bay area rectangle select
-tl_query_age = 'https://transit.land/api/v2/rest/agencies?bbox=-122.503607,37.166611,-121.713958,38.038060'
-tl_query_ops = 'https://transit.land/api/v2/rest/operators?bbox=-122.503607,37.166611,-121.713958,38.038060'
-tl_query_routes = 'https://transit.land/api/v2/rest/routes?bbox=-122.503607,37.166611,-121.713958,38.038060'
-tl_query_stops = 'https://transit.land/api/v2/rest/stops?bbox=-122.503607,37.166611,-121.713958,38.038060'
-tl_query_feeds = 'https://transit.land/api/v2/rest/feeds?bbox=-122.503607,37.166611,-121.713958,38.038060'
 
-# Brooklyn example rectangle selectß
-# tl_query = 'https://transit.land/api/v1/stops?bbox=-73.97339,40.649778,-73.946532,40.670353' 
 
-header = {'apikey':'NMmVInTVH1ctN7deZOcDy2Wzbh53GVav'}
-
-resp_age = requests.get(tl_query_age, headers=header)
-resp_ops = requests.get(tl_query_ops, headers=header)   
-resp_routes = requests.get(tl_query_routes, headers=header)
-resp_stops = requests.get(tl_query_stops, headers=header)
-resp_feeds = requests.get(tl_query_feeds, headers=header)
-
-rj_age = resp_age.json()
-rj_ops = resp_ops.json()
-rj_routes = resp_routes.json()
-rj_stops = resp_stops.json()
-rj_feeds = resp_feeds.json()
-
-# pprint.pprint(rj_age['agencies'][0])
+pprint.pprint(rj_age['agencies'][0])
 # pprint.pprint(rj_ops['operators'][0])
 # pprint.pprint(rj_routes['routes'][0])
 # pprint.pprint(len(rj_stops['stops'][0]))
