@@ -17,4 +17,4 @@
 # pip3 install -r setup/requirements.txt
 
 # Add data module location as environmental variable
-export PYTHONPATH=~/learning/realtime_GTFS/data/
+export PYTHONPATH=/learning/realtime_GTFS/data/:$PYTHONPATH
