@@ -8,7 +8,7 @@ import networkx as nx
 import numpy as np
 import pandas as pd
 # import peartree as pt
-from Shapely.geometry import Point
+# from Shapely.geometry import Point
 import pprint
 
 # Bay area rectangle select
@@ -34,3 +34,5 @@ rj_ops = resp_ops.json()
 rj_routes = resp_routes.json()
 rj_stops = resp_stops.json()
 rj_feeds = resp_feeds.json()
+
+# pprint.pprint(rj_feeds['feeds'])
