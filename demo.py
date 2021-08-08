@@ -10,6 +10,7 @@ import pandas as pd
 # import peartree as pt
 # from shapely.geometry import Point
 import pprint
+from data.py
 
 # Bay area rectangle select
 tl_query_age = 'https://transit.land/api/v2/rest/agencies?bbox=-122.503607,37.166611,-121.713958,38.038060'
@@ -35,11 +36,11 @@ rj_routes = resp_routes.json()
 rj_stops = resp_stops.json()
 rj_feeds = resp_feeds.json()
 
-pprint.pprint(rj_age['agencies'][0])
-pprint.pprint(rj_ops['operators'][0])
-pprint.pprint(rj_routes['routes'][0])
-pprint.pprint(len(rj_stops['stops'][0]))
-pprint.pprint(rj_feeds['feeds'][0])
+# pprint.pprint(rj_age['agencies'][0])
+# pprint.pprint(rj_ops['operators'][0])
+# pprint.pprint(rj_routes['routes'][0])
+# pprint.pprint(len(rj_stops['stops'][0]))
+# pprint.pprint(rj_feeds['feeds'][0])
 
 # Acquire list of operators in area
 # operators_name = []
@@ -55,3 +56,5 @@ pprint.pprint(rj_feeds['feeds'][0])
 #     stop_list.append([stop['name'], stop['onestop_id']])
 # # pprint.pprint(stop_list)
 # print(stop_list)
+
+
