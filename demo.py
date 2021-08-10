@@ -3,19 +3,15 @@ import requests
 import tempfile
 import sys
 from data.API_GET import rj_age, rj_ops, rj_routes, rj_stops, rj_feeds
+from data.API_GET import resp_age, resp_ops, resp_routes, resp_stops, resp_feeds
 
-# import geopandas as gpd
 import networkx as nx
-# import osmnx as ox
 import numpy as np
 import pandas as pd
-# import peartree as pt
-# from shapely.geometry import Point
 import pprint
 
-
-
-pprint.pprint(rj_feeds['feeds'][0])
+# pprint.pprint(rj_feeds['feeds'][-5])
+# pprint.pprint(len(rj_feeds['feeds']))
 # pprint.pprint(rj_ops['operators'][0])
 # pprint.pprint(rj_routes['routes'][0])
 # nt.pprint(len(rj_stops['stops'][0]))
@@ -35,5 +31,15 @@ pprint.pprint(rj_feeds['feeds'][0])
 #     stop_list.append([stop['name'], stop['onestop_id']])
 # # pprint.pprint(stop_list)
 # print(stop_list)
+
+# Create list of feeds and their urls, etc.
+# feed_list = []
+# for feed in rj_feeds['feeds']:
+#     feed_list.append([feed['onestop_id']])
+# pprint.pprint(feed_list)
+
+# pprint.pprint(rj_feeds['feeds'][3])
+
+ 
 
 
