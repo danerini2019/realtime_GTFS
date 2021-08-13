@@ -13,7 +13,6 @@ def get_query_stops(after):
     rj_stops_new = resp_stops.json()
     new_after_meta = rj_stops_new.get('meta', None)
     if new_after_meta:
-        rj_stops_new = pd.json_normalize(rj_stops_new)
         return rj_stops_new
     else:
         new_after = after
@@ -22,9 +21,13 @@ def get_query_stops(after):
     return rj_stops_new
 
 df_rj_stops = pd.DataFrame()
-stops_page_1 = get_query_stops(1)
+pprint.pprint(get_query_stops(1)['stops'][-1])
+stops_page_1 = pd.DataFrame.from_dict(get_query_stops(1)['stops'])
+print(stops_page_1.columns)
 after_page_1 = stops_page_1['meta']['after']
-stops_page_2 = get_query_stops((after_page_1))
+print(after_page_1)
+stops_page_2 = pd.DataFrame.from_dict(get_query_stops(after_page_1)['stops'])
+pprint.pprint(stops_page_2.head())
 df_rj_stops.append(stops_page_1)
 df_rj_stops.append(stops_page_2)
 print(df_rj_stops.head(100))
