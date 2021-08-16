@@ -11,6 +11,7 @@ def get_query_stops(after):
     tl_query_stops = 'https://transit.land/api/v2/rest/stops?after=' + str(after) + '&bbox=-122.503607,37.166611,-121.713958,38.038060?'
     resp_stops = requests.get(tl_query_stops, headers=header)
     rj_stops_new = resp_stops.json()
+
     new_after_meta = rj_stops_new.get('meta', None)
     if new_after_meta:
         return rj_stops_new
@@ -20,17 +21,15 @@ def get_query_stops(after):
 
     return rj_stops_new
 
-df_rj_stops = pd.DataFrame()
-pprint.pprint(get_query_stops(1)['stops'][-1])
-stops_page_1 = pd.DataFrame.from_dict(get_query_stops(1)['stops'])
-print(stops_page_1.columns)
+stops_page_1 = get_query_stops(1)
+print(len(stops_page_1['stops']))
 after_page_1 = stops_page_1['meta']['after']
-print(after_page_1)
-stops_page_2 = pd.DataFrame.from_dict(get_query_stops(after_page_1)['stops'])
-pprint.pprint(stops_page_2.head())
-df_rj_stops.append(stops_page_1)
-df_rj_stops.append(stops_page_2)
-print(df_rj_stops.head(100))
+# print(after_page_1)
+stops_page_2 = get_query_stops(after_page_1)
+print(len(stops_page_2['stops']))
+stops_page_1['stops'].extend(stops_page_2['stops'])
+print(len(stops_page_1['stops']))
+# pprint.pprint(stops_page_1['stops'])
 
 
 # Function to get next page number
