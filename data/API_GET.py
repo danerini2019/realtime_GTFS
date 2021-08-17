@@ -6,30 +6,36 @@ import time
 
 header = {'apikey':os.environ['TRANSIT_LAND_API_KEY']}
 
-# function to get a page of stops and next page number  
+# function to get a json of all stop data within rectangle
+# API endpoint not working properly. It keeps pulling data that is outside the lat/long rectangle in bbox. 
+# Problem persists for lat= long= method  
 def get_query_stops(after):
-    tl_query_stops = 'https://transit.land/api/v2/rest/stops?after=' + str(after) + '&bbox=-122.503607,37.166611,-121.713958,38.038060?'
+    # tl_query_stops = 'https://transit.land/api/v2/rest/stops?after=' + str(after) + '&bbox=-122.503607,37.166611,-121.713958,38.038060?'
+    # testing with smaller dataset
+    # tl_query_stops = 'https://transit.land/api/v2/rest/stops?after=' + str(after) + '?bbox=-122.4183,37.7758,-122.4120,37.7858'
+    tl_query_stops = 'https://transit.land/api/v2/rest/stops?after=67&?lon=-122.415304&lat=37.778309&r=10000'
+    # print(tl_query_stops)
     resp_stops = requests.get(tl_query_stops, headers=header)
     rj_stops_new = resp_stops.json()
-
-    new_after_meta = rj_stops_new.get('meta', None)
-    if new_after_meta:
-        return rj_stops_new
+    pprint.pprint(rj_stops_new['stops'])
+    after_meta = rj_stops_new.get('meta', None)
+    if rj_stops_new['stops']:
+        pprint.pprint(rj_stops_new.keys())
+        after = after_meta.get('after', None)
+        return rj_stops_new['stops'].extend(get_query_stops(after)['stops'])
     else:
-        new_after = after
-        time.sleep(5)
-
-    return rj_stops_new
+        if 'API rate limit exceeded' in rj_stops_new['message']:
+            print(rj_stops_new['message'])
+            time.sleep(45)
+            rj_stops_new = get_query_stops(after)
+            return rj_stops_new['stops'].extend(get_query_stops(after)['stops'])
+        else:
+            print(rj_stops_new['message'])
+            return 'end'
 
 stops_page_1 = get_query_stops(1)
-print(len(stops_page_1['stops']))
-after_page_1 = stops_page_1['meta']['after']
-# print(after_page_1)
-stops_page_2 = get_query_stops(after_page_1)
-print(len(stops_page_2['stops']))
-stops_page_1['stops'].extend(stops_page_2['stops'])
-print(len(stops_page_1['stops']))
-# pprint.pprint(stops_page_1['stops'])
+
+pprint.pprint(stops_page_1['stops'])
 
 
 
