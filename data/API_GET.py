@@ -13,7 +13,7 @@ def get_query_stops(after):
     # tl_query_stops = 'https://transit.land/api/v2/rest/stops?after=' + str(after) + '&bbox=-122.503607,37.166611,-121.713958,38.038060?'
     # testing with smaller dataset
     # tl_query_stops = 'https://transit.land/api/v2/rest/stops?after=' + str(after) + '?bbox=-122.4183,37.7758,-122.4120,37.7858'
-    tl_query_stops = 'https://transit.land/api/v2/rest/stops?after=67&?lon=-122.415304&lat=37.778309&r=10000'
+    tl_query_stops = 'https://transit.land/api/v2/rest/stops?after=67&?lon=-122.415304&lat=37.778309&r=100000'
     # print(tl_query_stops)
     resp_stops = requests.get(tl_query_stops, headers=header)
     rj_stops_new = resp_stops.json()
