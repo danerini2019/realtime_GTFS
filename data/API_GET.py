@@ -6,33 +6,75 @@ import time
 
 header = {'apikey':os.environ.get('TRANSIT_LAND_API_KEY')}
 
-# function to get a json of all stop data within circle or rectangle
-def get_query_stops(after):
-    tl_query_stops = 'https://transit.land/api/v2/rest/stops?after=' + str(after) + '&lon=37.816036&lat=-122.230025&radius=1000'
-    # Pull data with v1 api
-    # tl_query_stops = 'https://transit.land/api/v1/stops?per_page=10&bbox=-122.4183,37.7758,-122.4120,37.7858'
-    resp_stops = requests.get(tl_query_stops, headers=header)
-    rj_stops_new = resp_stops.json()
-    after_meta = rj_stops_new.get('meta', None)
-    if len(rj_stops_new.get('stops', None)) > 0:
-        print(rj_stops_new.keys())
-        after = after_meta.get('after', None)
-        return rj_stops_new['stops'].extend(get_query_stops(after)['stops'])
-        # TypeError: nonetype not subscriptable but everything here is not nonetype only empty
+# Geographic entries - test set
+longitute = 37.816036
+latitude = -122.230025
+radius = 10000
+after = 0
+
+def api_call(lon, lat, r, after):
+    query_url = 'https://transit.land/api/v2/rest/stops?after=' + str(after) + '&lon=' + str(longitute) + '&lat=' + str(latitude) + '&radius=' + str(r)
+    resp_stops = requests.get(query_url, headers=header)
+    stops_json = resp_stops.json()
+    stops_meta = stops_json.get('meta', None)
+    if stops_meta:
+        after = stops_meta['after']
+        message = stops_meta.get('message', None)
     else:
-        if after_meta and 'API rate limit exceeded' in after_meta.get('message', None):
-            print(rj_stops_new['message'])
-            time.sleep(45)
-            rj_stops_new = get_query_stops(after)
-            return rj_stops_new['stops'].extend(get_query_stops(after)['stops'])
+        time.sleep(30)
+        stops_json, stops_meta, after, message = api_call(lon, lat, r, after)
+    
+    return stops_json, stops_meta, after, message
+
+def get_stops(lon, lat, r, after):
+    page_count = 0
+    stops_meta = 0
+    stops_all = {'stops': []}
+    stops_json, stops_meta, after, message = api_call(lon, lat, r, after)
+    
+    # Loops stops when there is no meta key, no meta key = no stops
+    while stops_meta:
+        stops_json, stops_meta, after, message = api_call(lon, lat, r, after)
+        print(after)
+        if message:
+            print(message)
+            time.sleep(30)
         else:
-            pprint.pprint(rj_stops_new)
-            return rj_stops_new 
+            stops_all['stops'].extend(stops_json['stops'])
+            print(len(stops_all['stops']))
+    
+    return stops_all
 
-stops_page_1 = get_query_stops(0)
+stops_page_1 = get_stops(longitute, latitude, radius, after)
 
-pprint.pprint(len(stops_page_1['stops']))
-pprint.pprint(stops_page_1['stops'][-1])
+# pprint.pprint(stops_page_1['stops'])
+print(len(stops_page_1['stops']))
+
+
+
+
+# def count()
+#     recursive count
+#     num_count = how many times we need to query
+
+
+# def get_page_afters(num_count):
+#     []
+#     for i in range(len(num_count)):
+#         run query to get actual page after
+#         add to list
+
+#     return list of page afters 
+
+# ----- vs ------
+
+# def recursive_get_afters:
+#     call query ? num of time 
+#     return list of page afters
+
+
+
+
 
 
 
