@@ -4,7 +4,7 @@ import requests
 import pprint
 import time
 
-header = {'apikey':os.environ['TRANSIT_LAND_API_KEY']}
+header = {'apikey':os.environ.get('TRANSIT_LAND_API_KEY')}
 
 # function to get a json of all stop data within circle or rectangle
 def get_query_stops(after):
@@ -14,7 +14,7 @@ def get_query_stops(after):
     resp_stops = requests.get(tl_query_stops, headers=header)
     rj_stops_new = resp_stops.json()
     after_meta = rj_stops_new.get('meta', None)
-    if len(rj_stops_new['stops']) > 0:
+    if len(rj_stops_new.get('stops', None)) > 0:
         print(rj_stops_new.keys())
         after = after_meta.get('after', None)
         return rj_stops_new['stops'].extend(get_query_stops(after)['stops'])
