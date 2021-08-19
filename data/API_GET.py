@@ -9,18 +9,20 @@ header = {'apikey':os.environ.get('TRANSIT_LAND_API_KEY')}
 # Geographic entries - test set
 longitute = 37.816036
 latitude = -122.230025
-radius = 10000
+radius = 1000
 after = 0
 
 def api_call(lon, lat, r, after):
     query_url = 'https://transit.land/api/v2/rest/stops?after=' + str(after) + '&lon=' + str(longitute) + '&lat=' + str(latitude) + '&radius=' + str(r)
     resp_stops = requests.get(query_url, headers=header)
     stops_json = resp_stops.json()
+    message = stops_json.get('message', None)
     stops_meta = stops_json.get('meta', None)
     if stops_meta:
         after = stops_meta['after']
-        message = stops_meta.get('message', None)
-    else:
+    elif message:
+        print(stops_json.keys())
+        print(message)
         time.sleep(30)
         stops_json, stops_meta, after, message = api_call(lon, lat, r, after)
     
@@ -28,25 +30,14 @@ def api_call(lon, lat, r, after):
 
 def get_stops(lon, lat, r, after):
     page_count = 0
-    stops_meta = 0
+    stops_meta = {'meta': []}
     stops_all = {'stops': []}
-    stops_json, stops_meta, after, message = api_call(lon, lat, r, after)
-    
-    # Loops stops when there is no meta key, no meta key = no stops
     while stops_meta:
         stops_json, stops_meta, after, message = api_call(lon, lat, r, after)
-        print(after)
-        if message:
-            print(message)
-            time.sleep(30)
-        else:
-            stops_all['stops'].extend(stops_json['stops'])
-            print(len(stops_all['stops']))
-    
+        stops_all['stops'].extend(stops_json['stops'])
     return stops_all
 
 stops_page_1 = get_stops(longitute, latitude, radius, after)
-
 # pprint.pprint(stops_page_1['stops'])
 print(len(stops_page_1['stops']))
 
