@@ -12,8 +12,8 @@ latitude = -122.230025
 radius = 1000
 after = 0
 
-def api_call(lon, lat, r, after):
-    query_url = 'https://transit.land/api/v2/rest/stops?after=' + str(after) + '&lon=' + str(longitute) + '&lat=' + str(latitude) + '&radius=' + str(r)
+def api_call(lon, lat, r, after, datatype):
+    query_url = 'https://transit.land/api/v2/rest/' + datatype + '?after=' + str(after) + '&lon=' + str(longitute) + '&lat=' + str(latitude) + '&radius=' + str(r)
     resp_stops = requests.get(query_url, headers=header)
     stops_json = resp_stops.json()
     message = stops_json.get('message', None)
@@ -24,22 +24,24 @@ def api_call(lon, lat, r, after):
         print(stops_json.keys())
         print(message)
         time.sleep(30)
-        stops_json, stops_meta, after, message = api_call(lon, lat, r, after)
+        stops_json, stops_meta, after, message = api_call(lon, lat, r, after, datatype)
     
     return stops_json, stops_meta, after, message
 
-def get_stops(lon, lat, r, after):
+def get_stops(lon, lat, r, after, datatype):
     page_count = 0
     stops_meta = {'meta': []}
     stops_all = {'stops': []}
     while stops_meta:
-        stops_json, stops_meta, after, message = api_call(lon, lat, r, after)
+        stops_json, stops_meta, after, message = api_call(lon, lat, r, after, datatype)
         stops_all['stops'].extend(stops_json['stops'])
     return stops_all
 
-stops_page_1 = get_stops(longitute, latitude, radius, after)
+stops_all = get_stops(longitute, latitude, radius, after, 'stops')
 # pprint.pprint(stops_page_1['stops'])
-print(len(stops_page_1['stops']))
+pprint.pprint(stops_page_1['stops'][0])
+stops_df = pd.DataFrame.from_dict(stops_page_1)
+print(stops_df['stops'])
 
 
 
