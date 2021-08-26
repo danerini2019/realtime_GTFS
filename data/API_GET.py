@@ -39,8 +39,8 @@ def get_stops(lon, lat, r, after, datatype):
 
 stops_all = get_stops(longitute, latitude, radius, after, 'stops')
 # pprint.pprint(stops_page_1['stops'])
-pprint.pprint(stops_page_1['stops'][0])
-stops_df = pd.DataFrame.from_dict(stops_page_1)
+pprint.pprint(stops_all['stops'][0])
+stops_df = pd.DataFrame.from_dict(stops_all)
 print(stops_df['stops'])
 
 
