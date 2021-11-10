@@ -67,10 +67,6 @@ print(stops_df['stops'])
 
 
 
-
-
-
-
 # Function to get next page number
 def get_after(after):
     rj_stops_new = get_query_stops(after)
