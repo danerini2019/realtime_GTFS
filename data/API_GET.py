@@ -6,14 +6,15 @@ import time
 
 header = {'apikey':os.environ.get('TRANSIT_LAND_API_KEY')}
 
-# Geographic entries - test set
-longitute = 37.816036
-latitude = -122.230025
-radius = 1000
+# Geographic entries - test set - doesn't seem to work with these parameters
+longitute = 37.785449
+latitude = -122.446473
+radius = 10000
 after = 0
 
-def api_call(lon, lat, r, after, datatype):
-    query_url = 'https://transit.land/api/v2/rest/' + datatype + '?after=' + str(after) + '&lon=' + str(longitute) + '&lat=' + str(latitude) + '&radius=' + str(r)
+def api_call(lon, lat, r, after, datatype='stops'):
+    # query_url = 'https://transit.land/api/v2/rest/' + datatype + '?after=' + str(after) + '&lon=' + str(longitute) + '&lat=' + str(latitude) + '&radius=' + str(r)
+    query_url = 'https://transit.land/api/v2/rest/stops?bbox=-122.4183,37.7758,-122.4120,37.7858?limit=3'
     resp_stops = requests.get(query_url, headers=header)
     stops_json = resp_stops.json()
     message = stops_json.get('message', None)
@@ -25,7 +26,6 @@ def api_call(lon, lat, r, after, datatype):
         print(message)
         time.sleep(30)
         stops_json, stops_meta, after, message = api_call(lon, lat, r, after, datatype)
-    
     return stops_json, stops_meta, after, message
 
 def get_stops(lon, lat, r, after, datatype):
@@ -39,12 +39,9 @@ def get_stops(lon, lat, r, after, datatype):
 
 stops_all = get_stops(longitute, latitude, radius, after, 'stops')
 # pprint.pprint(stops_page_1['stops'])
-pprint.pprint(stops_all['stops'][0])
+pprint.pprint(stops_all['stops'])
 stops_df = pd.DataFrame.from_dict(stops_all)
-print(stops_df['stops'])
-
-
-
+print(stops_df['stops'].head())
 
 # def count()
 #     recursive count
@@ -64,8 +61,6 @@ print(stops_df['stops'])
 # def recursive_get_afters:
 #     call query ? num of time 
 #     return list of page afters
-
-
 
 # Function to get next page number
 def get_after(after):
@@ -114,7 +109,7 @@ def get_after(after):
 # tl_query_feeds = 'https://transit.land/api/v2/rest/feeds?bbox=-122.503607,37.166611,-121.713958,38.038060'
 
 # # # Brooklyn example rectangle selectß
-# # # tl_query = 'https://transit.land/api/v1/stops?bbox=-73.97339,40.649778,-73.946532,40.670353' 
+# tl_query_stops = 'https://transit.land/api/v2/rest/stops?bbox=-73.97339,40.649778,-73.946532,40.670353' 
 
 
 # resp_age = requests.get(tl_query_age, headers=header)
@@ -128,6 +123,8 @@ def get_after(after):
 # rj_routes = resp_routes.json()
 # rj_stops = resp_stops.json()
 # rj_feeds = resp_feeds.json()
+
+# pprint.pprint(rj_stops)
 
 # read_age = pd.json_normalize(rj_age)
 # read_ops = pd.json_normalize(rj_ops)
